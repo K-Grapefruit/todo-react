@@ -1,19 +1,30 @@
 import { atom, selector } from "recoil";
 
+const TODOS_KEY = "todos";
+
+const gettodo = localStorage.getItem(TODOS_KEY);
+const parsetodo = JSON.parse(gettodo as any);
+console.log(parsetodo);
+export enum Category {
+  "TO_DO" = "TO_DO",
+  "DOING" = "DOING",
+  "DONE" = "DONE",
+}
+
 export interface IToDo {
   text: string;
   id: number;
-  category: "TO_DO" | "DOING" | "DONE";
+  category: Category;
 }
 
-export const categoryState = atom({
+export const categoryState = atom<Category>({
   key: "category",
-  default: "TO_DO",
+  default: Category.TO_DO,
 });
 
 export const toDoState = atom<IToDo[]>({
   key: "toDo",
-  default: [],
+  default: parsetodo !== null ? parsetodo : [],
 });
 
 export const toDoSelecotr = selector({
