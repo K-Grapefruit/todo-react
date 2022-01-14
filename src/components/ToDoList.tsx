@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
+import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
+import { categoryState, toDoSelecotr, toDoState } from "../atom";
+import CreateToDo from "./CreateToDo";
+import ToDo from "./ToDo";
 
-interface Iform {
-  Todo: string;
-}
 function ToDoList() {
   // const [toDo, setTodo] = useState("");
   // const [toDoError, setError] = useState("");
@@ -21,33 +21,27 @@ function ToDoList() {
   //     return setError("Write Sholud be longer");
   //   }
   // };
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<Iform>();
-
-  const handleValid = (data: Iform) => {
-    console.log("Todo? ", data.Todo);
-    setValue("Todo", "");
+  //const toDos = useRecoilValue(toDoState);
+  const todos = useRecoilValue(toDoSelecotr);
+  const [category, setCategory] = useRecoilState(categoryState);
+  const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
+    setCategory(event.currentTarget.value);
   };
-  console.log(errors);
   return (
     <div>
-      <form onSubmit={handleSubmit(handleValid)}>
-        <input
-          {...register("Todo", {
-            required: true,
-            validate: {
-              noJerk: (value) => (value.includes("Jerk") ? "Never" : true),
-            },
-          })}
-          placeholder="Write a to do"
-        />
-        <button>Add</button>
-      </form>
+      <h1>To Dos</h1>
+      <hr />
+
+      <select value={category} onInput={onInput}>
+        <option value="TO_DO">To Do</option>
+        <option value="DOING">Doing</option>
+        <option value="DONE">Done</option>
+      </select>
+
+      <CreateToDo />
+      {todos?.map((todo) => (
+        <ToDo key={todo.id} {...todo} />
+      ))}
     </div>
   );
 }
