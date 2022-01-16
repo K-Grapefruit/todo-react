@@ -1,7 +1,10 @@
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import { Category, IToDo, toDoState } from "../atom";
-
+import img1 from "./work.png";
+import img2 from "./check.png";
+import img3 from "./delete.png";
 function ToDo({ text, category, id }: IToDo) {
   const setTodos = useSetRecoilState(toDoState);
   const val = useRecoilValue(toDoState);
@@ -40,30 +43,56 @@ function ToDo({ text, category, id }: IToDo) {
     });
   };
 
+  const Li = styled.li`
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 15px;
+  `;
   return (
-    <>
-      <li>
-        <span>{text}</span>
-        {category !== Category.TO_DO && (
-          <button name={Category.TO_DO + ""} onClick={onClick}>
-            ToDo
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <Li>
+        <div style={{ width: "30%" }}>
+          <span style={{ marginRight: "30px", textOverflow: "ellipsis" }}>
+            {text}
+          </span>
+        </div>
+        <div>
+          {category !== Category.TO_DO && (
+            <button name={Category.TO_DO + ""} onClick={onClick}>
+              ToDo
+            </button>
+          )}
+          {category !== Category.DOING && (
+            <button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              name={Category.DOING + ""}
+              onClick={onClick}
+            >
+              <img src={img1} />
+            </button>
+          )}
+          {category !== Category.DONE && (
+            <button
+              style={{ backgroundColor: "transparent", border: "none" }}
+              name={Category.DONE + ""}
+              onClick={onClick}
+            >
+              <img src={img2} />
+            </button>
+          )}
+          <button
+            style={{ backgroundColor: "transparent", border: "none" }}
+            name={id as any}
+            onClick={deleteTodo}
+          >
+            <img src={img3} />
           </button>
-        )}
-        {category !== Category.DOING && (
-          <button name={Category.DOING + ""} onClick={onClick}>
-            Doing
-          </button>
-        )}
-        {category !== Category.DONE && (
-          <button name={Category.DONE + ""} onClick={onClick}>
-            Done
-          </button>
-        )}
-        <button name={id as any} onClick={deleteTodo}>
-          delete
-        </button>
-      </li>
-    </>
+        </div>
+      </Li>
+    </div>
   );
 }
 

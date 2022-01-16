@@ -1,9 +1,61 @@
 import React from "react";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
+import styled from "styled-components";
 import { Category, categoryState, toDoSelecotr, toDoState } from "../atom";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
 
+const Main = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-color: #fbc531;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const MainForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 40%;
+  height: 90%;
+
+  padding: 50px;
+  box-shadow: 0;
+  background-color: #8c7ae6;
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+`;
+
+const Mainselect = styled.select`
+  width: 70px;
+  height: 50px;
+  background-color: #8c7ae6;
+  color: white;
+  border: none;
+  font-size: large;
+`;
+
+const MainForm1 = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+`;
+const H1 = styled.h1`
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  margin-bottom: 15px;
+  color: #fbc531;
+`;
+const date = new Date();
+
+const thisyear = date.getFullYear();
+const thisMonth = String(date.getMonth() + 1).padStart(2, "0");
+const today = String(date.getDate()).padStart(2, "0");
+
+const hours = String(date.getHours()).padStart(2, "0");
+const minutes = String(date.getMinutes()).padStart(2, "0");
+const seconds = String(date.getSeconds()).padStart(2, "0");
 function ToDoList() {
   // const [toDo, setTodo] = useState("");
   // const [toDoError, setError] = useState("");
@@ -28,21 +80,23 @@ function ToDoList() {
     setCategory(event.currentTarget.value as any);
   };
   return (
-    <div>
-      <h1>To Dos</h1>
-      <hr />
+    <Main>
+      <MainForm>
+        <H1>ToDay Work!</H1>
+        <MainForm1>
+          <Mainselect value={category} onInput={onInput}>
+            <option value={Category.TO_DO}>To Do</option>
+            <option value={Category.DOING}>Doing</option>
+            <option value={Category.DONE}>Done</option>
+          </Mainselect>
+          <CreateToDo />
+        </MainForm1>
 
-      <select value={category} onInput={onInput}>
-        <option value={Category.TO_DO}>To Do</option>
-        <option value={Category.DOING}>Doing</option>
-        <option value={Category.DONE}>Done</option>
-      </select>
-
-      <CreateToDo />
-      {todos?.map((todo) => (
-        <ToDo key={todo.id} {...todo} />
-      ))}
-    </div>
+        {todos?.map((todo) => (
+          <ToDo key={todo.id} {...todo} />
+        ))}
+      </MainForm>
+    </Main>
   );
 }
 // interface Iform {
