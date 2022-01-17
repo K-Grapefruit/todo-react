@@ -55,7 +55,15 @@ function ToDo({ text, category, id }: IToDo) {
     <div style={{ display: "flex", justifyContent: "center" }}>
       <Li>
         <div style={{ width: "30%" }}>
-          <span style={{ marginRight: "30px", textOverflow: "ellipsis" }}>
+          <span
+            style={{
+              marginRight: "30px",
+              textOverflow: "ellipsis",
+              fontWeight: "700",
+              fontSize: "15px",
+              lineHeight: "20px",
+            }}
+          >
             {text}
           </span>
         </div>

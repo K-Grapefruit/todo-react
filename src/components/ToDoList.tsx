@@ -33,6 +33,7 @@ const Mainselect = styled.select`
   color: white;
   border: none;
   font-size: large;
+  margin-right: 20px;
 `;
 
 const MainForm1 = styled.div`

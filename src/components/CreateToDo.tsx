@@ -29,7 +29,7 @@ function CreateToDo() {
 
   const { handleSubmit, register, setValue } = useForm<Iform>();
   const handleValid = ({ toDo }: Iform) => {
-    if (toDo.length < 10) {
+    if (toDo.length < 10 && currentvalue.length < 8) {
       setToDos((oldvalue) => [
         { text: toDo, id: Date.now(), category },
         ...oldvalue,
